@@ -1,0 +1,26 @@
+{
+  "canisters": {
+    "vine-city-backend": {
+      "main": "src/vine-city-backend/main.mo",
+      "type": "motoko"
+    },
+    "vine-city-frontend": {
+      "dependencies": [
+        "vine-city-backend"
+      ],
+      "source": [
+        "src/vine-city-frontend/dist"
+      ],
+      "type": "assets",
+      "workspace": "vine-city-frontend"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}
