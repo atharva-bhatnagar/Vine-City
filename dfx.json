@@ -1,7 +1,7 @@
 {
   "canisters": {
-    "vine-city-backend": {
-      "main": "src/vine-city-backend/main.mo",
+    "User": {
+      "main": "src/vine-city-backend/controllers/userController.mo",
       "type": "motoko"
     },
     "vine-city-frontend": {
