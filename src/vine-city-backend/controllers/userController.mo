@@ -13,7 +13,7 @@ actor User{
 
     var userRecords=TrieMap.TrieMap<Principal,UserModel.User>(Principal.equal,Principal.hash);
     stable var stableUserRecords:[(Principal,UserModel.User)]=[];
-    var secureCanisters:Buffer.Buffer<Text> = Buffer.empty<Text>();
+    var secureCanisters:Buffer.Buffer<Text> = Buffer.Buffer<Text>(10);
 
     system func preupgrade(){
         stableUserRecords := Iter.toArray(userRecords.entries());
@@ -81,7 +81,7 @@ actor User{
     // Apply for vinish to resident promotion
     public shared ({caller}) func applyPromotionToResident():async Result.Result<Text,Text>{
         try{
-            await UtilityFunctions.checkAnonymous();
+            await UtilityFunctions.checkAnonymous(caller);
             switch(userRecords.get(caller)){
                 case(?user){
                     if(user.vineCoins < Constants.VINE_COINS_FOR_RESIDENT_PROMOTION){
@@ -116,7 +116,7 @@ actor User{
     // Update user
     public shared ({caller}) func updateUser(_userInfo:UserTypes.UserInputData):async Result.Result<UserModel.User,Text>{
         try{
-            await UtilityFunctions.checkAnonymous();
+            await UtilityFunctions.checkAnonymous(caller);
             switch(userRecords.get(caller)){
             case(null){
                 return #err("No user found for this Principal!");
@@ -143,8 +143,8 @@ actor User{
     };
 
     // Banish User - Can only be called by the user and other canisters of the vine city
-    private func banishUser(_userID:Principal):Result.Result<Text,Text>{
-        switch(userRecords.get(caller)){
+    private func _banishUser(_userID:Principal):Result.Result<Text,Text>{
+        switch(userRecords.get(_userID)){
             case(null){
                 return #err("No user found for this Principal!");
             };
