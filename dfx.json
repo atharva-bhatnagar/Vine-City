@@ -6,7 +6,7 @@
     },
     "vine-city-frontend": {
       "dependencies": [
-        "vine-city-backend"
+        "User"
       ],
       "source": [
         "src/vine-city-frontend/dist"
